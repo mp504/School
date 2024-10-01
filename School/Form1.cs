@@ -23,7 +23,7 @@ namespace School
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-            MainPanel.Visible = true;
+
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -38,9 +38,8 @@ namespace School
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            StudentSignupPanel.Visible = false;
-
             MainPanel.Visible = true;
+
 
         }
 
@@ -84,20 +83,66 @@ namespace School
             string user = UserName.Text;
             string pass = Password.Text;
             LabelError.Visible = false;
-            string connectionString =  "Server=desktop-ol5def3; Database=School; Integrated Security=True; TrustServerCertificate=True;";
-            ;
+            string connectionString = "Server=DESKTOP-B55SNFG; Database=School; Integrated Security=True; TrustServerCertificate=True;";
+
             DataAccess checking = new DataAccess(connectionString);
             if (checking.check_student(connectionString, user, pass))
             {
-                
-               StudentPanel.Visible = true;
+
+                StudentPanel.Visible = true;
 
 
 
-            }else
+            }
+            else
             {
                 LabelError.Visible = true;
             }
+        }
+
+        private void SignUp_Click(object sender, EventArgs e)
+        {
+            string connectionString = "Server=DESKTOP-B55SNFG; Database=School; Integrated Security=True; TrustServerCertificate=True;";
+
+
+
+            String role = RoleSelection.Text;
+            DataAccess checking = new DataAccess(connectionString);
+
+
+            MainPanel.Visible = false;
+            StudentPanel.Visible = false;
+            SignUp_page.Visible = true;
+
+
+
+
+
+        }
+
+        private void SignUp_role_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string role = SignUp_role.SelectedItem.ToString();
+
+
+            switch (role)
+            {
+
+                case "Student":
+                    StudentSignupPanel.Visible = true;
+
+                    break;
+
+
+
+            }
+        }
+
+        private void SignUpStudent_Click(object sender, EventArgs e)
+        {
+            string username = SignUp_username.Text;
+            string password 
+
         }
     }
 }
