@@ -5,8 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace School
+using School.RecordManage;
+namespace School.people
 {
     public class Teacher
     {
@@ -14,9 +14,10 @@ namespace School
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
-        // Add other properties as necessary
 
-        public bool check_teacher_id(string connectionString, string sID, string password)
+
+
+        public bool check_teacher_id(string sID, string password)
         {
             int count = 0;
             DataAccess Checking = new DataAccess();
@@ -55,7 +56,7 @@ namespace School
 
 
 
-        public Teacher check_teacher(string connectionString, string tID, string password)
+        public Teacher check_teacher(string tID, string password)
         {
 
             DataAccess Checking = new DataAccess();
@@ -99,7 +100,7 @@ namespace School
                 MessageBox.Show("An error occurred: " + ex.Message);
 
             }
-             Teacher teacher = new Teacher
+            Teacher teacher = new Teacher
             {
                 TeacherID = surveyDict.ContainsKey("TeacherID") ? Convert.ToInt32(surveyDict["TeacherID"]) : 0,
                 FirstName = surveyDict.ContainsKey("FirstName") ? surveyDict["FirstName"].ToString() : null,
@@ -185,7 +186,7 @@ namespace School
 
 
 
-        
+
         public void LoadCourses_enrolled(ComboBox comboBox, int sID)
         {
 
@@ -275,7 +276,7 @@ namespace School
 
             using (SqlConnection cnn = retrieve.connect_to_SQL())
             {
-                
+
 
                 using (SqlCommand command = new SqlCommand(query, cnn))
                 {
@@ -283,7 +284,7 @@ namespace School
 
                     try
                     {
-                        
+
                         using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                         {
                             adapter.Fill(studentsTable);

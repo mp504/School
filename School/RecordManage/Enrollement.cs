@@ -5,12 +5,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace School
+using School.RecordManage;
+using School.People;
+namespace School.RecordManage
 {
-    internal class Enrollement
+    public class Enrollement
     {
-        
+
 
 
         // loading  not enrolled courses 
@@ -35,7 +36,7 @@ namespace School
 
                 try
                 {
-                   
+
                     SqlDataReader reader = command.ExecuteReader();
 
                     // Clear existing items
@@ -52,24 +53,24 @@ namespace School
                 }
                 catch (Exception ex)
                 {
-                   
+
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
         }
 
 
-        public void Add_course( int sID,int  cID)
+        public void Add_course(int sID, int cID)
         {
             string connectionString = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True";
             DataAccess add = new DataAccess();
             string query = "INSERT INTO Enrollment (StudentID, CourseID) VALUES (@StudentID, @CourseID)";
-            
+
 
 
             using (SqlConnection cnn = add.connect_to_SQL())
             {
-                
+
                 using (SqlCommand cmd = new SqlCommand(query, cnn))
                 {
 
@@ -140,12 +141,12 @@ namespace School
 
             DataAccess del = new DataAccess();
             string query = @"DELETE FROM Enrollment
-                            WHERE StudentID = @StudentID AND CourseID = @CourseID; "; 
+                            WHERE StudentID = @StudentID AND CourseID = @CourseID; ";
 
             using (SqlConnection cnn = del.connect_to_SQL())
             {
 
-                using (SqlCommand cmd = new SqlCommand(query, cnn ))
+                using (SqlCommand cmd = new SqlCommand(query, cnn))
                 {
                     cmd.Parameters.AddWithValue("@StudentID", sID);
                     cmd.Parameters.AddWithValue("@CourseID", cID);

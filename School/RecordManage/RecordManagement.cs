@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-namespace School
+using School.People;
+namespace School.RecordManage
 {
-    public class RecordManage
+    public class RecordManagement
     {
-        public DataTable Retrieve_table( int sID)
+        public DataTable Retrieve_table(int sID)
         {
 
-            string Connstr = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True";           
+            string Connstr = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True";
             DataAccess table = new DataAccess();
             string query = @"SELECT c.CourseID, c.CourseName
                         FROM Courses c
@@ -24,7 +25,7 @@ namespace School
             {
                 using (SqlConnection cnn = table.connect_to_SQL())
                 {
-                    using(SqlCommand cmd = new SqlCommand(query, cnn))
+                    using (SqlCommand cmd = new SqlCommand(query, cnn))
                     {
 
 
@@ -35,7 +36,7 @@ namespace School
                             adapter.Fill(datatable);
 
                         }
-                     
+
 
 
                     }
@@ -44,16 +45,16 @@ namespace School
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(" error in sql"+ ex);
+                MessageBox.Show(" error in sql" + ex);
             }
             catch (Exception ex2)
 
             {
-                MessageBox.Show("run error " + ex2); 
+                MessageBox.Show("run error " + ex2);
             }
 
             return datatable;
-            
+
         }
 
 

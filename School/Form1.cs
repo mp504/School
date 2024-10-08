@@ -1,4 +1,7 @@
 using Microsoft.Data.SqlClient;
+using School.people;
+using School.People;
+using School.RecordManage;
 using System.Data;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
@@ -90,7 +93,6 @@ namespace School
             string user = UserName.Text;
             string pass = Password.Text;
 
-            string connectionString = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True;";
 
             var role = RoleSelection?.SelectedItem?.ToString();
 
@@ -102,10 +104,11 @@ namespace School
                 case "Students ":
                     DataAccess checking = new DataAccess();
 
-                    if (checking.check_student_id(connectionString, user, pass))
+                    if (checking.check_student_id(user, pass))
                     {
-                        Student student = checking.check_student(connectionString, user, pass);
-                        RecordManage recordManage = new RecordManage();
+                        Student student = new Student();
+                           student =  student.check_student(user, pass);
+                        RecordManagement recordManage = new RecordManagement();
                         DataTable table = recordManage.Retrieve_table(student.StudentID);
 
                         MainPanel.Visible = false;
@@ -138,15 +141,31 @@ namespace School
                         MessageBox.Show("Invalid login for student.");
                     }
                     break;
-                case "Parents ":
+                case "Parents":
 
-                    DataAccess record = new DataAccess();
-                    if (record.check_parent(connectionString, user, pass))
+                    Parent record = new Parent();
+
+                    if (record.check_parent(user, pass))
                     {
-
+                        Parent parent = record.parent(user, pass);
                         MainPanel.Visible = false;
-                        StudentPanel.Visible = true;
+                        StudentPanel.Visible = false;
                         SignUp_page.Visible = false;
+                        ParentPanel.Visible = true;
+                        TeacherPanel.Visible = false;
+
+                        ParentID.Text = parent.Id.ToString();
+                        ParentName.Text = parent.FName.ToString() + " " + parent.LName.ToString();
+                        DataTable table = parent.childs(parent.Id);
+                        ChildsTable.ReadOnly = true;
+                        ChildsTable.DataSource = table;
+
+
+
+
+
+
+
 
 
 
@@ -158,9 +177,9 @@ namespace School
                     break;
                 case "Teachers ":
                     Teacher check = new Teacher();
-                    if (check.check_teacher_id(connectionString, user, pass) != null)
+                    if (check.check_teacher_id(user, pass) != null)
                     {
-                        Teacher teacher = check.check_teacher(connectionString, user, pass);
+                        Teacher teacher = check.check_teacher(user, pass);
 
                         MainPanel.Visible = false;
                         StudentPanel.Visible = false;
@@ -177,7 +196,7 @@ namespace School
 
                         check.LoadCourses_enrolled(T_coursesNames, teacher.TeacherID);
                         check.LoadCourses_enrolled(selectCourse, teacher.TeacherID);
-                       
+
 
 
 
@@ -202,7 +221,6 @@ namespace School
 
         private void SignUp_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True;";
 
 
             String role = RoleSelection.Text;
@@ -214,6 +232,7 @@ namespace School
             SignUp_page.Visible = true;
             TeacherPanel.Visible = false;
             ParentPanel.Visible = false;
+            StudentCourses.DataSource = null;
 
 
 
@@ -253,10 +272,6 @@ namespace School
 
         private void SignUpStudent_Click(object sender, EventArgs e)
         {
-
-            string connectionString = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True;";
-
-
 
 
             string role = SignUp_role.SelectedItem.ToString();
@@ -394,33 +409,38 @@ namespace School
 
         private void DeleteCourse_st_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (DeleteCourse_st.SelectedValue is DataRowView selectedRow)
+            if (DeleteCourse_st.DataSource != null)
             {
-                int selected = Convert.ToInt32(selectedRow["CourseID"]);
-                CourseID_Delete_St.Text = selected.ToString();
-            }
-            else
-            {
-                int selected = (int)DeleteCourse_st.SelectedValue;
-                CourseID_Delete_St.Text = selected.ToString();
+                if (DeleteCourse_st.SelectedValue is DataRowView selectedRow)
+                {
+                    int selected = Convert.ToInt32(selectedRow["CourseID"]);
+                    CourseID_Delete_St.Text = selected.ToString();
+                }
+                else
+                {
+                    int selected = (int)DeleteCourse_st.SelectedValue;
+                    CourseID_Delete_St.Text = selected.ToString();
 
+                }
             }
         }
 
         private void SelectCourseName_st_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            if (SelectCourseName_st.SelectedValue is DataRowView selectedRow)
+            if (SelectCourseName_st.DataSource != null)
             {
-                int selected = Convert.ToInt32(selectedRow["CourseID"]);
-                ST_displayCourseID.Text = selected.ToString();
-            }
-            else
-            {
-                int selected = (int)SelectCourseName_st.SelectedValue;
-                ST_displayCourseID.Text = selected.ToString();
+                if (SelectCourseName_st.SelectedValue is DataRowView selectedRow)
+                {
+                    int selected = Convert.ToInt32(selectedRow["CourseID"]);
+                    ST_displayCourseID.Text = selected.ToString();
+                }
+                else
+                {
+                    int selected = (int)SelectCourseName_st.SelectedValue;
+                    ST_displayCourseID.Text = selected.ToString();
 
+                }
             }
-
         }
 
         private void ST_displayCourseID_Click(object sender, EventArgs e)
@@ -437,7 +457,7 @@ namespace School
             int cID = int.Parse(cID_int);
 
             enrollement.Add_course(sID, cID);
-            RecordManage recordManage = new RecordManage();
+            RecordManagement recordManage = new RecordManagement();
             DataTable table = recordManage.Retrieve_table(sID);
             StudentCourses.ReadOnly = true;
             StudentCourses.DataSource = table;
@@ -459,7 +479,7 @@ namespace School
             int cID = int.Parse(cID_int);
 
             enrollement.deleteCourse(sID, cID);
-            RecordManage recordManage = new RecordManage();
+            RecordManagement recordManage = new RecordManagement();
             DataTable table = recordManage.Retrieve_table(sID);
             StudentCourses.ReadOnly = true;
             StudentCourses.DataSource = table;
@@ -524,12 +544,12 @@ namespace School
             Teacher check = new Teacher();
             if (selectCourse.SelectedValue is DataRowView selectedRow)
             {
-                 selected = Convert.ToInt32(selectedRow["CourseID"]);
+                selected = Convert.ToInt32(selectedRow["CourseID"]);
                 //CourseID.Text = selected.ToString();
             }
             else
             {
-                 selected = (int)selectCourse.SelectedValue;
+                selected = (int)selectCourse.SelectedValue;
                 //CourseID.Text= selected.ToString();
 
             }
@@ -537,6 +557,71 @@ namespace School
             studentTable.ReadOnly = true;
             studentTable.DataSource = sTable;
 
+
+        }
+
+        private void SSignOut_Click(object sender, EventArgs e)
+        {
+            ResetApp();
+
+        }
+
+        private void TSignOut_Click(object sender, EventArgs e)
+        {
+            ResetApp();
+
+        }
+
+        private void ResetApp()
+        {
+            UserName.Text = string.Empty;
+            Password.Text = string.Empty;
+            T_coursesNames.DataSource = null;
+            selectCourse.DataSource = null;
+            T_coursesNames.Items.Clear();
+            selectCourse.Items.Clear();
+            studentTable.DataSource = null;
+            MainPanel.Visible = true;
+            ChildsTable.DataSource = null;
+            SignUp_username.Text = string.Empty;
+            Signup_password.Text = string.Empty;
+            FirstName.Text = string.Empty;
+            LastName.Text = string.Empty;
+            StudentCourses.DataSource = null;
+            SelectCourseName_st.DataSource = null;
+            SelectCourseName_st.Items.Clear();
+            DeleteCourse_st.DataSource = null;
+            DeleteCourse_st.Items.Clear();
+        }
+
+        private void PSignOut_Click(object sender, EventArgs e)
+        {
+            ResetApp();
+        }
+
+        private void SearchChild_Click(object sender, EventArgs e)
+        {
+            string id = ChildID.Text;
+            int sID = int.Parse(id);
+            Student student = new Student();
+            Student child = student.checkChild(sID);
+
+            if (child != null)
+            {
+                ChildName.Text = child.FirstName.ToString() + " " + child.LastName.ToString();
+
+            }
+
+        }
+
+        private void AddChild_Click(object sender, EventArgs e)
+        {
+            string id = ChildID.Text;
+            int sID = int.Parse(id);
+            string pID = ParentID.Text;
+            int parentID = int.Parse(pID);
+            Parent parent = new Parent();
+            parent.updateStudent(parentID, sID);
 
         }
     }

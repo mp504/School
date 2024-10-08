@@ -63,6 +63,7 @@
             label13 = new Label();
             textBox4 = new TextBox();
             StudentPanel = new Panel();
+            SSignOut = new Button();
             St_AddCourse = new TabControl();
             tabPage3 = new TabPage();
             AddCourse = new Button();
@@ -87,7 +88,22 @@
             label14 = new Label();
             recordManageBindingSource = new BindingSource(components);
             ParentPanel = new Panel();
+            PSignOut = new Button();
+            tabControl2 = new TabControl();
+            tabPage5 = new TabPage();
+            AddChild = new Button();
+            label35 = new Label();
+            SearchChild = new Button();
+            ChildName = new Label();
+            ChildID = new TextBox();
+            label33 = new Label();
+            ChildsTable = new DataGridView();
+            ParentName = new Label();
+            label32 = new Label();
+            ParentID = new Label();
+            label31 = new Label();
             TeacherPanel = new Panel();
+            TSignOut = new Button();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             label28 = new Label();
@@ -119,6 +135,10 @@
             tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)StudentCourses).BeginInit();
             ((System.ComponentModel.ISupportInitialize)recordManageBindingSource).BeginInit();
+            ParentPanel.SuspendLayout();
+            tabControl2.SuspendLayout();
+            tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)ChildsTable).BeginInit();
             TeacherPanel.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -296,7 +316,6 @@
             Signup_password.Name = "Signup_password";
             Signup_password.Size = new Size(125, 27);
             Signup_password.TabIndex = 5;
-            Signup_password.Text = "Enter Password";
             Signup_password.UseSystemPasswordChar = true;
             // 
             // label9
@@ -342,7 +361,6 @@
             SignUp_username.Name = "SignUp_username";
             SignUp_username.Size = new Size(125, 27);
             SignUp_username.TabIndex = 0;
-            SignUp_username.Text = "Enter UserName";
             // 
             // label5
             // 
@@ -462,6 +480,7 @@
             // StudentPanel
             // 
             StudentPanel.BackColor = SystemColors.ButtonFace;
+            StudentPanel.Controls.Add(SSignOut);
             StudentPanel.Controls.Add(St_AddCourse);
             StudentPanel.Controls.Add(StudentCourses);
             StudentPanel.Controls.Add(ParentID_StPage);
@@ -477,14 +496,25 @@
             StudentPanel.TabIndex = 9;
             StudentPanel.Paint += StudentPanel_Paint;
             // 
+            // SSignOut
+            // 
+            SSignOut.BackColor = Color.FromArgb(255, 128, 128);
+            SSignOut.Location = new Point(13, 371);
+            SSignOut.Name = "SSignOut";
+            SSignOut.Size = new Size(94, 29);
+            SSignOut.TabIndex = 12;
+            SSignOut.Text = "Sign Out";
+            SSignOut.UseVisualStyleBackColor = false;
+            SSignOut.Click += SSignOut_Click;
+            // 
             // St_AddCourse
             // 
             St_AddCourse.Controls.Add(tabPage3);
             St_AddCourse.Controls.Add(tabPage4);
-            St_AddCourse.Location = new Point(66, 252);
+            St_AddCourse.Location = new Point(123, 252);
             St_AddCourse.Name = "St_AddCourse";
             St_AddCourse.SelectedIndex = 0;
-            St_AddCourse.Size = new Size(672, 152);
+            St_AddCourse.Size = new Size(615, 152);
             St_AddCourse.TabIndex = 11;
             // 
             // tabPage3
@@ -498,7 +528,7 @@
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(664, 119);
+            tabPage3.Size = new Size(607, 119);
             tabPage3.TabIndex = 0;
             tabPage3.Text = "Add";
             tabPage3.UseVisualStyleBackColor = true;
@@ -570,7 +600,7 @@
             tabPage4.Location = new Point(4, 29);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(664, 119);
+            tabPage4.Size = new Size(607, 119);
             tabPage4.TabIndex = 1;
             tabPage4.Text = "Delete";
             tabPage4.UseVisualStyleBackColor = true;
@@ -701,18 +731,161 @@
             // 
             // recordManageBindingSource
             // 
-            recordManageBindingSource.DataSource = typeof(RecordManage);
+         //   recordManageBindingSource.DataSource = typeof(RecordManagement);
             // 
             // ParentPanel
             // 
-            ParentPanel.BackColor = SystemColors.ActiveCaption;
+            ParentPanel.BackColor = SystemColors.ButtonFace;
+            ParentPanel.Controls.Add(PSignOut);
+            ParentPanel.Controls.Add(tabControl2);
+            ParentPanel.Controls.Add(ParentName);
+            ParentPanel.Controls.Add(label32);
+            ParentPanel.Controls.Add(ParentID);
+            ParentPanel.Controls.Add(label31);
             ParentPanel.Location = new Point(11, 9);
             ParentPanel.Name = "ParentPanel";
             ParentPanel.Size = new Size(777, 430);
             ParentPanel.TabIndex = 10;
             // 
+            // PSignOut
+            // 
+            PSignOut.BackColor = Color.FromArgb(255, 128, 128);
+            PSignOut.Location = new Point(40, 371);
+            PSignOut.Name = "PSignOut";
+            PSignOut.Size = new Size(94, 29);
+            PSignOut.TabIndex = 5;
+            PSignOut.Text = "Sign Out";
+            PSignOut.UseVisualStyleBackColor = false;
+            PSignOut.Click += PSignOut_Click;
+            // 
+            // tabControl2
+            // 
+            tabControl2.Controls.Add(tabPage5);
+            tabControl2.Location = new Point(202, 14);
+            tabControl2.Name = "tabControl2";
+            tabControl2.SelectedIndex = 0;
+            tabControl2.Size = new Size(571, 416);
+            tabControl2.TabIndex = 4;
+            // 
+            // tabPage5
+            // 
+            tabPage5.Controls.Add(AddChild);
+            tabPage5.Controls.Add(label35);
+            tabPage5.Controls.Add(SearchChild);
+            tabPage5.Controls.Add(ChildName);
+            tabPage5.Controls.Add(ChildID);
+            tabPage5.Controls.Add(label33);
+            tabPage5.Controls.Add(ChildsTable);
+            tabPage5.Location = new Point(4, 29);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new Padding(3);
+            tabPage5.Size = new Size(563, 383);
+            tabPage5.TabIndex = 0;
+            tabPage5.Text = "childs";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // AddChild
+            // 
+            AddChild.Location = new Point(222, 318);
+            AddChild.Name = "AddChild";
+            AddChild.Size = new Size(94, 29);
+            AddChild.TabIndex = 6;
+            AddChild.Text = "Add";
+            AddChild.UseVisualStyleBackColor = true;
+            AddChild.Click += AddChild_Click;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(34, 304);
+            label35.Name = "label35";
+            label35.Size = new Size(87, 20);
+            label35.TabIndex = 5;
+            label35.Text = "Child Name";
+            // 
+            // SearchChild
+            // 
+            SearchChild.Location = new Point(222, 246);
+            SearchChild.Name = "SearchChild";
+            SearchChild.Size = new Size(94, 29);
+            SearchChild.TabIndex = 4;
+            SearchChild.Text = "Search";
+            SearchChild.UseVisualStyleBackColor = true;
+            SearchChild.Click += SearchChild_Click;
+            // 
+            // ChildName
+            // 
+            ChildName.AutoSize = true;
+            ChildName.Location = new Point(30, 332);
+            ChildName.Name = "ChildName";
+            ChildName.Size = new Size(104, 20);
+            ChildName.TabIndex = 3;
+            ChildName.Text = "no ID entered!";
+            // 
+            // ChildID
+            // 
+            ChildID.Location = new Point(19, 248);
+            ChildID.Name = "ChildID";
+            ChildID.Size = new Size(125, 27);
+            ChildID.TabIndex = 2;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(36, 215);
+            label33.Name = "label33";
+            label33.Size = new Size(62, 20);
+            label33.TabIndex = 1;
+            label33.Text = "Child ID";
+            // 
+            // ChildsTable
+            // 
+            ChildsTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            ChildsTable.Location = new Point(6, 5);
+            ChildsTable.Name = "ChildsTable";
+            ChildsTable.RowHeadersWidth = 51;
+            ChildsTable.Size = new Size(409, 188);
+            ChildsTable.TabIndex = 0;
+            // 
+            // ParentName
+            // 
+            ParentName.AutoSize = true;
+            ParentName.Location = new Point(40, 145);
+            ParentName.Name = "ParentName";
+            ParentName.Size = new Size(16, 20);
+            ParentName.TabIndex = 3;
+            ParentName.Text = "?";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(34, 105);
+            label32.Name = "label32";
+            label32.Size = new Size(94, 20);
+            label32.TabIndex = 2;
+            label32.Text = "Parent Name";
+            // 
+            // ParentID
+            // 
+            ParentID.AutoSize = true;
+            ParentID.Location = new Point(30, 56);
+            ParentID.Name = "ParentID";
+            ParentID.Size = new Size(17, 20);
+            ParentID.TabIndex = 1;
+            ParentID.Text = "0";
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(25, 20);
+            label31.Name = "label31";
+            label31.Size = new Size(69, 20);
+            label31.TabIndex = 0;
+            label31.Text = "Parent ID";
+            // 
             // TeacherPanel
             // 
+            TeacherPanel.Controls.Add(TSignOut);
             TeacherPanel.Controls.Add(tabControl1);
             TeacherPanel.Controls.Add(TeacherName);
             TeacherPanel.Controls.Add(label22);
@@ -723,6 +896,17 @@
             TeacherPanel.Size = new Size(777, 430);
             TeacherPanel.TabIndex = 11;
             TeacherPanel.Paint += TeacherPanel_Paint;
+            // 
+            // TSignOut
+            // 
+            TSignOut.BackColor = Color.FromArgb(255, 128, 128);
+            TSignOut.Location = new Point(23, 375);
+            TSignOut.Name = "TSignOut";
+            TSignOut.Size = new Size(94, 29);
+            TSignOut.TabIndex = 6;
+            TSignOut.Text = "Sign out";
+            TSignOut.UseVisualStyleBackColor = false;
+            TSignOut.Click += TSignOut_Click;
             // 
             // tabControl1
             // 
@@ -964,6 +1148,12 @@
             tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)StudentCourses).EndInit();
             ((System.ComponentModel.ISupportInitialize)recordManageBindingSource).EndInit();
+            ParentPanel.ResumeLayout(false);
+            ParentPanel.PerformLayout();
+            tabControl2.ResumeLayout(false);
+            tabPage5.ResumeLayout(false);
+            tabPage5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)ChildsTable).EndInit();
             TeacherPanel.ResumeLayout(false);
             TeacherPanel.PerformLayout();
             tabControl1.ResumeLayout(false);
@@ -1058,5 +1248,21 @@
         private DataGridView studentTable;
         private Label label30;
         private ComboBox selectCourse;
+        private TabControl tabControl2;
+        private TabPage tabPage5;
+        private Label ParentName;
+        private Label label32;
+        private Label ParentID;
+        private Label label31;
+        private DataGridView ChildsTable;
+        private Button SSignOut;
+        private Button PSignOut;
+        private Button TSignOut;
+        private TextBox ChildID;
+        private Label label33;
+        private Button AddChild;
+        private Label label35;
+        private Button SearchChild;
+        private Label ChildName;
     }
 }
