@@ -13,7 +13,6 @@ namespace School.RecordManage
         public DataTable Retrieve_table(int sID)
         {
 
-            string Connstr = "Server=DESKTOP-OL5DEF3; Database=School; Integrated Security=True; TrustServerCertificate=True";
             DataAccess table = new DataAccess();
             string query = @"SELECT c.CourseID, c.CourseName
                         FROM Courses c

@@ -503,16 +503,19 @@ namespace School
 
         private void T_coursesNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (T_coursesNames.SelectedValue is DataRowView selectedRow)
+            if (T_coursesNames.DataSource != null)
             {
-                int selected = Convert.ToInt32(selectedRow["CourseID"]);
-                CourseID.Text = selected.ToString();
-            }
-            else
-            {
-                int selected = (int)T_coursesNames.SelectedValue;
-                CourseID.Text = selected.ToString();
+                if (T_coursesNames.SelectedValue is DataRowView selectedRow)
+                {
+                    int selected = Convert.ToInt32(selectedRow["CourseID"]);
+                    CourseID.Text = selected.ToString();
+                }
+                else
+                {
+                    int selected = (int)T_coursesNames.SelectedValue;
+                    CourseID.Text = selected.ToString();
 
+                }
             }
         }
 
@@ -542,16 +545,18 @@ namespace School
         {
             int selected = 0;
             Teacher check = new Teacher();
-            if (selectCourse.SelectedValue is DataRowView selectedRow)
+            if (selectCourse.DataSource != null)
             {
-                selected = Convert.ToInt32(selectedRow["CourseID"]);
-                //CourseID.Text = selected.ToString();
-            }
-            else
-            {
-                selected = (int)selectCourse.SelectedValue;
-                //CourseID.Text= selected.ToString();
-
+                if (selectCourse.SelectedValue is DataRowView selectedRow)
+                {
+                    selected = Convert.ToInt32(selectedRow["CourseID"]);
+                    //CourseID.Text = selected.ToString();
+                }
+                else
+                {
+                    selected = (int)selectCourse.SelectedValue;
+                    //CourseID.Text= selected.ToString();
+                }
             }
             DataTable sTable = check.GetStudentsEnrolledInCourse(selected);
             studentTable.ReadOnly = true;
@@ -602,16 +607,26 @@ namespace School
         private void SearchChild_Click(object sender, EventArgs e)
         {
             string id = ChildID.Text;
-            int sID = int.Parse(id);
-            Student student = new Student();
-            Student child = student.checkChild(sID);
-
-            if (child != null)
+            int sID;
+            if (int.TryParse(id, out sID))
             {
-                ChildName.Text = child.FirstName.ToString() + " " + child.LastName.ToString();
+                Student student = new Student();
+                if (student.check_student_id(sID))
+                {
+                    Student child = student.checkChild(sID);
+
+
+                    ChildName.Text = child.FirstName.ToString() + " " + child.LastName.ToString();
+
+                }
 
             }
-
+            else
+            {
+                MessageBox.Show("Enter valid ID");
+            }
+            
+            
         }
 
         private void AddChild_Click(object sender, EventArgs e)
@@ -622,6 +637,9 @@ namespace School
             int parentID = int.Parse(pID);
             Parent parent = new Parent();
             parent.updateStudent(parentID, sID);
+            DataTable table = parent.childs(parent.Id);
+            ChildsTable.ReadOnly = true;
+            ChildsTable.DataSource = table;
 
         }
     }

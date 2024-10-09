@@ -26,7 +26,7 @@ namespace School.People
 
             DataAccess Checking = new DataAccess();
 
-            string query = "SELECT StudentID, FirstName, LastName, Username, ParentID FROM Students WHERE Username = @Username ";
+            string query = "SELECT StudentID, FirstName, LastName, Username, ParentID FROM Students WHERE StudentID = @StudentID ";
 
             Dictionary<string, object> surveyDict = new Dictionary<string, object>();
             try
@@ -35,7 +35,7 @@ namespace School.People
                 {
                     using (SqlCommand command = new SqlCommand(query, cnn))
                     {
-                        command.Parameters.AddWithValue("@Username", sID);
+                        command.Parameters.AddWithValue("@StudentID", sID);
 
 
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -136,6 +136,43 @@ namespace School.People
             };
 
             return student;
+        }
+
+
+        public bool check_student_id(int sID)
+        {
+            int count = 0;
+            DataAccess Checking = new DataAccess();
+
+            string query = "SELECT COUNT(*) FROM Students WHERE StudentID = @StudentID ";
+
+
+            try
+            {
+                using (SqlConnection cnn = Checking.connect_to_SQL())
+                {
+
+                    using (SqlCommand command = new SqlCommand(query, cnn))
+                    {
+
+
+                        command.Parameters.AddWithValue("@StudentID", sID);
+
+
+
+                        count = (int)command.ExecuteScalar();
+                        cnn.Close();
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("not Conn");
+            }
+
+
+
+            return count > 0;
         }
 
 

@@ -128,38 +128,7 @@ namespace School.RecordManage
 
 
 
-        public bool check_parent(string sID, string password)
-        {
-            int count = 0;
-            DataAccess Checking = new DataAccess();
-
-            string query = "SELECT COUNT(*) FROM Parents WHERE Username = @Username AND PasswordHash = @PasswordHash";
-
-
-
-            using (SqlConnection cnn = Checking.connect_to_SQL())
-            {
-
-                using (SqlCommand command = new SqlCommand(query, cnn))
-                {
-
-
-                    command.Parameters.AddWithValue("@Username", sID);
-                    command.Parameters.AddWithValue("@PasswordHash", password); // Ensure you hash the password
-
-
-
-                    count = (int)command.ExecuteScalar();
-                    cnn.Close();
-                }
-            }
-
-
-            return count > 0;
-
-        }
-
-
+       
 
 
 
